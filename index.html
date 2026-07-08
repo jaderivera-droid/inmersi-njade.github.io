@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis de Datos — Asignatura: Inmersión Digital</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <style>
+        html { scroll-behavior: smooth; }
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen font-sans flex flex-col justify-between">
+
+    <section id="view-portada" class="relative min-h-screen flex flex-col justify-center items-center px-4 bg-cover bg-center bg-no-repeat" 
+             style="background-image: url('https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=1920&q=80');">
+        
+        <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"></div>
+
+        <div class="relative z-10 w-full max-w-4xl bg-white/95 backdrop-blur border border-white/20 rounded-3xl p-6 md:p-10 shadow-2xl my-8">
+            
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center gap-2 bg-sky-50 border border-sky-200 text-sky-700 px-4 py-1.5 rounded-full text-xs font-extrabold tracking-wider uppercase mb-3">
+                    <i class="fa-solid fa-chart-network animate-pulse"></i> Asignatura: Inmersión Digital
+                </div>
+                <h1 class="text-3xl md:text-5xl font-black tracking-tight text-slate-900 uppercase">
+                    Análisis de Datos
+                </h1>
+                <div class="w-20 h-1.5 bg-sky-500 mx-auto mt-3 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-50 border border-slate-200 rounded-2xl p-5 mb-8">
+                <div>
+                    <p class="text-[10px] font-extrabold text-sky-600 uppercase tracking-widest mb-1">Docente Asesor</p>
+                    <p class="text-base font-black text-slate-900">Ing. Orlando Euceda</p>
+                    <p class="text-xs text-slate-500 mt-0.5">Supervisor de Investigación Estratégica</p>
+                </div>
+                <div class="border-t md:border-t-0 md:border-l border-slate-300 pt-3 md:pt-0 md:pl-6">
+                    <p class="text-[10px] font-extrabold text-sky-600 uppercase tracking-widest mb-1">Equipo de Estudiantes Investigadores</p>
+                    <div class="grid grid-cols-2 gap-x-2 gap-y-1 text-slate-900 font-bold text-xs">
+                        <div><i class="fa-solid fa-user-badge text-sky-500 mr-1.5"></i>Jade Rivera</div>
+                        <div><i class="fa-solid fa-user-badge text-sky-500 mr-1.5"></i>Carlos Girón</div>
+                        <div><i class="fa-solid fa-user-badge text-sky-500 mr-1.5"></i>Edgar Ríos</div>
+                        <div><i class="fa-solid fa-user-badge text-sky-500 mr-1.5"></i>Larisa Castillo</div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <p class="text-center text-[10px] font-extrabold text-slate-400 uppercase tracking-widest mb-4">Selecciona un módulo temático para visualizar los resultados</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    
+                    <button onclick="navigateToDashboard('topic1')" class="group text-left bg-white border border-slate-200 hover:border-sky-500 p-4 rounded-xl transition-all duration-300 hover:shadow-md">
+                        <div class="w-8 h-8 rounded-lg bg-sky-50 flex items-center justify-center text-sky-600 mb-2 group-hover:bg-sky-500 group-hover:text-white transition-colors">
+                            <i class="fa-solid fa-id-card text-sm"></i>
+                        </div>
+                        <h3 class="font-bold text-sm text-slate-900 group-hover:text-sky-600 transition-colors">1. Perfil Sociodemográfico y Económico</h3>
+                        <p class="text-[11px] text-slate-500 mt-0.5 leading-relaxed">Métricas de género, rangos etarios, procedencia urbana y segmentación de ingresos.</p>
+                    </button>
+
+                    <button onclick="navigateToDashboard('topic2')" class="group text-left bg-white border border-slate-200 hover:border-sky-500 p-4 rounded-xl transition-all duration-300 hover:shadow-md">
+                        <div class="w-8 h-8 rounded-lg bg-sky-50 flex items-center justify-center text-sky-600 mb-2 group-hover:bg-sky-500 group-hover:text-white transition-colors">
+                            <i class="fa-solid fa-mobile-screen text-sm"></i>
+                        </div>
+                        <h3 class="font-bold text-sm text-slate-900 group-hover:text-sky-600 transition-colors">2. Uso de la Tecnología y Redes Sociales</h3>
+                        <p class="text-[11px] text-slate-500 mt-0.5 leading-relaxed">Sistemas de telefonía móvil, horas de conexión diaria, plataformas críticas y formatos multimedia.</p>
+                    </button>
+
+                    <button onclick="navigateToDashboard('topic3')" class="group text-left bg-white border border-slate-200 hover:border-sky-500 p-4 rounded-xl transition-all duration-300 hover:shadow-md">
+                        <div class="w-8 h-8 rounded-lg bg-sky-50 flex items-center justify-center text-sky-600 mb-2 group-hover:bg-sky-500 group-hover:text-white transition-colors">
+                            <i class="fa-solid fa-basketball text-sm"></i>
+                        </div>
+                        <h3 class="font-bold text-sm text-slate-900 group-hover:text-sky-600 transition-colors">3. Deporte, Entretenimiento y Consumo</h3>
+                        <p class="text-[11px] text-slate-500 mt-0.5 leading-relaxed">Índices de afición al fútbol, canales físicos y virtuales, decisiones de marca y cultura de ahorro.</p>
+                    </button>
+
+                    <button onclick="navigateToDashboard('topic4')" class="group text-left bg-white border border-slate-200 hover:border-sky-500 p-4 rounded-xl transition-all duration-300 hover:shadow-md">
+                        <div class="w-8 h-8 rounded-lg bg-sky-50 flex items-center justify-center text-sky-600 mb-2 group-hover:bg-sky-500 group-hover:text-white transition-colors">
+                            <i class="fa-solid fa-graduation-cap text-sm"></i>
+                        </div>
+                        <h3 class="font-bold text-sm text-slate-900 group-hover:text-sky-600 transition-colors">4. Expectativas, Educación y Futuro</h3>
+                        <p class="text-[11px] text-slate-500 mt-0.5 leading-relaxed">Visión del entorno laboral, rumbo del país, valor del título universitario y metas personales.</p>
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="view-dashboard" class="hidden flex-grow flex flex-col">
+        
+        <header class="border-b border-slate-200 bg-white/95 backdrop-blur sticky top-0 z-50 px-6 py-3 flex flex-wrap justify-between items-center gap-4 shadow-sm">
+            <div class="flex items-center gap-3">
+                <button onclick="returnToPortada()" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-xl text-slate-800 text-xs font-bold transition-all flex items-center gap-1">
+                    <i class="fa-solid fa-arrow-left text-sky-600"></i> Volver a Portada
+                </button>
+                <div class="h-6 w-[1px] bg-slate-200"></div>
+                <div>
+                    <h2 class="font-black text-sm text-slate-900 tracking-tight">Análisis Estadístico Avanzado</h2>
+                    <p class="text-[10px] text-sky-600 font-bold">Muestra de Control Universitaria: N = 219 Casos</p>
+                </div>
+            </div>
+            
+            <nav class="flex flex-wrap gap-1 bg-slate-100 border border-slate-200 p-1 rounded-xl">
+                <button id="btn-tab-topic1" onclick="switchTab('topic1')" class="nav-tab-btn px-3 py-1.5 text-xs font-bold rounded-lg transition-all text-slate-500">Módulo 1</button>
+                <button id="btn-tab-topic2" onclick="switchTab('topic2')" class="nav-tab-btn px-3 py-1.5 text-xs font-bold rounded-lg transition-all text-slate-500">Módulo 2</button>
+                <button id="btn-tab-topic3" onclick="switchTab('topic3')" class="nav-tab-btn px-3 py-1.5 text-xs font-bold rounded-lg transition-all text-slate-500">Módulo 3</button>
+                <button id="btn-tab-topic4" onclick="switchTab('topic4')" class="nav-tab-btn px-3 py-1.5 text-xs font-bold rounded-lg transition-all text-slate-500">Módulo 4</button>
+            </nav>
+        </header>
+
+        <main class="max-w-7xl mx-auto w-full px-6 py-6 flex-grow">
+            
+            <div id="panel-topic1" class="tab-panel space-y-6">
+                <div class="relative rounded-2xl overflow-hidden shadow-md h-40 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80');">
+                    <div class="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-900/80 to-transparent flex flex-col justify-center px-8">
+                        <span class="text-sky-400 font-extrabold text-[10px] uppercase tracking-widest mb-1"><i class="fa-solid fa-layer-group"></i> Tópico de Investigación 01</span>
+                        <h3 class="text-xl md:text-2xl font-black text-white uppercase tracking-tight">Perfil Sociodemográfico y Económico</h3>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm flex flex-col justify-between min-h-[250px]">
+                        <h4 class="text-xs font-black text-slate-900 uppercase mb-2"><i class="fa-solid fa-users text-sky-500 mr-1"></i> Segmentación Base</h4>
+                        <div class="grid grid-cols-2 divide-x divide-slate-100 flex-grow items-center">
+                            <div class="flex justify-center items-center gap-4 pr-2">
+                                <div class="text-center">
+                                    <i class="fa-solid fa-venus text-5xl text-pink-500 drop-shadow-sm"></i>
+                                    <p class="text-[10px] font-bold text-slate-400 uppercase mt-1">Mujeres</p>
+                                    <span class="text-base font-black text-slate-900">59.8%</span>
+                                </div>
+                                <div class="text-center">
+                                    <i class="fa-solid fa-mars text-5xl text-blue-500 drop-shadow-sm"></i>
+                                    <p class="text-[10px] font-bold text-slate-400 uppercase mt-1">Hombres</p>
+                                    <span class="text-base font-black text-slate-900">40.2%</span>
+                                </div>
+                            </div>
+                            <div class="text-center pl-2">
+                                <i class="fa-solid fa-cake-candles text-4xl text-sky-500 mb-1"></i>
+                                <p class="text-[10px] font-bold text-slate-400 uppercase">Edad Clave</p>
+                                <span class="text-sm font-black text-slate-800 block">18 - 35 años</span>
+                                <span class="text-[11px] font-bold text-sky-600 bg-sky-50 px-2 py-0.5 rounded-full inline-block mt-1">62.1% total</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
+                        <h4 class="text-xs font-black text-slate-900 uppercase mb-3"><i class="fa-solid fa-cake-candles text-sky-500 mr-1"></i> Rangos de Edad Dominantes</h4>
+                        <div class="h-56"><canvas id="chart1_2"></canvas></div>
+                    </div>
+                    <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
+                        <h4 class="text-xs font-black text-slate-900 uppercase mb-3"><i class="fa-solid fa-map-location-dot text-sky-500 mr-1"></i> Procedencia Metropolitana</h4>
+                        <div class="h-56"><canvas id="chart1_3"></canvas></div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
+                        <h4 class="text-xs font-black text-slate-900 uppercase mb-3"><i class="fa-solid fa-user-graduate text-sky-500 mr-1"></i> Nivel Máximo de Instrucción</h4>
+                        <div class="h-64"><canvas id="chart1_4"></canvas></div>
+                    </div>
+                    <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
+                        <h4 class="text-xs font-black text-slate-900 uppercase mb-3"><i class="fa-solid fa-money-bill-wave text-sky-500 mr-1"></i> Segmentación por Rango de Ingresos</h4>
+                        <div class="h-64"><canvas id="chart1_5"></canvas></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="panel-topic2" class="tab-panel space-y-6">
+                <div class="relative rounded-2xl overflow-hidden shadow-md h-40 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80');">
+                    <div class="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-900/80 to-transparent flex flex-col justify-center px-8">
+                        <span class="text-sky-400 font-extrabold text-[10px] uppercase tracking-widest mb-1"><i class="fa-solid fa-layer-group"></i> Tópico de Investigación 02</span>
+                        <h3 class="text-xl md:text-2xl font-black text-white uppercase tracking-tight">Uso de la Tecnología y Redes Sociales</h3>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm flex flex-col justify-between min-h-[250px]">
+                        <h4 class="text-xs font-black text-slate-900 uppercase mb-2"><i class="fa-solid fa-mobile-screen text-sky-500 mr-1"></i> Acceso por Segmento</h4>
+                        <div class="grid grid-cols-2 divide-x divide-slate-100 flex-grow items-center">
+                            <div class="flex justify-center items-center gap-4 pr-2">
+                                <div class="text-center">
+                                    <i class="fa-solid fa-venus text-5xl text-pink-500 drop-shadow-sm"></i>
+                                    <p class="text-[10px] font-bold text-slate-400 uppercase mt-1">Android / iOS</p>
+                                    <span class="text-xs font-black text-slate-900">45.2% / 14.6%</span>
+                                </div>
+                                <div class="text-center">
+                                    <i class="fa-solid fa-mars text-5xl text-blue-500 drop-shadow-sm"></i>
+                                    <p class="text-[10px] font-bold text-slate-400 uppercase mt-1">Android / iOS</p>
+                                    <span class="text-xs font-black text-slate-900">30.6% / 9.6%</span>
+                                </div>
+                            </div>
+                            <div class="text-center pl-2">
+                                <i class="fa-solid fa-mobile-retro text-4xl text-sky-500 mb-1"></i>
+                                <p class="text-[10px] font-bold text-slate-400 uppercase">Uso Intensivo</p>
+                                <span class="text-sm font-black text-slate-800 block">> 6 horas diarias</span>
+                                <span class="text-[11px] font-bold text-sky-600 bg-sky-50 px-2 py-0.5 rounded-full inline-block mt-1">Grupo: 18-25 años</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
+                        <h4 class="text-xs font-black text-slate-900 uppercase mb-3"><i class="fa-solid fa-clock text-sky-500 mr-1"></i> Horas de Conexión en Pantalla</h4>
+                        <div class="h-56"><canvas id="chart2_2"></canvas></div>
+                    </div>
+                    <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
+                        <h4 class="text-xs font-black text-slate-900 uppercase mb-3"><i class="fa-solid fa-moon text-sky-500 mr-1"></i> Franjas de Mayor Tráfico</h4>
+                        <div class="h-56"><canvas id="chart2_3"></canvas></div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
+                        <h4 class="text-xs font-black text-slate-900 uppercase mb-3"><i class="fa-solid fa-hashtag text-sky-500 mr-1"></i> Plataformas Virtuales de Interacción</h4>
+                        <div class="h-64"><canvas id="chart2_4"></canvas></div>
+                    </div>
+                    <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
+                        <h4 class="text-xs font-black text-slate-900 uppercase mb-3"><i class="fa-solid fa-circle-play text-sky-500 mr-1"></i> Formato Multimedia Predilecto</h4>
+                        <div class="h-64"><canvas id="chart2_5"></canvas></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="panel-topic3" class="tab-panel space-y-6">
+                <div class="relative rounded-2xl overflow-hidden shadow-md h-40 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=1200&q=80');">
+                    <div class="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-900/80 to-transparent flex flex-col justify-center px-8">
+                        <span class="text-sky-400 font-extrabold text-[10px] uppercase tracking-widest mb-1"><i class="fa-solid fa-layer-group"></i> Tópico de Investigación 03</span>
+                        <h3 class="text-xl md:text-2xl font-black text-white uppercase tracking-tight">Deporte, Entretenimiento y Consumo</h3>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm flex flex-col justify-between min-h-[250px]">
+                        <h4 class="text-xs font-black text-slate-900 uppercase mb-2"><i class="fa-solid fa-basket-shopping text-sky-500 mr-1"></i> Interés de Consumo</h4>
+                        <div class="grid grid-cols-2 divide-x divide-slate-100 flex-grow items-center">
+                            <div class="flex justify-center items-center gap-4 pr-2">
+                                <div class="text-center">
+                                    <i class="fa-solid fa-venus text-5xl text-pink-500 drop-shadow-sm"></i>
+                                    <p class="text-[10px] font-bold text-slate-400 uppercase mt-1">Afición F.</p>
+                                    <span class="text-base font-black text-slate-900">31.5%</span>
+                                </div>
+                                <div class="text-center">
+                                    <i class="fa-solid fa-mars text-5xl text-blue-500 drop-shadow-sm"></i>
+                                    <p class="text-[10px] font-bold text-slate-400 uppercase mt-1">Afición F.</p>
+                                    <span class="text-base font-black text-slate-900">25.1%</span>
+                                </div>
+                            </div>
+                            <div class="text-center pl-2">
+                                <i class="fa-solid fa-cart-shopping text-4xl text-sky-500 mb-1"></i>
+                                <p class="text-[10px] font-bold text-slate-400 uppercase">Canal Digital</p>
+                                <span class="text-sm font-black text-slate-800 block">E-commerce</span>
+                                <span class="text-[11px] font-bold text-sky-600 bg-sky-50 px-2 py-0.5 rounded-full inline-block mt-1">Líder: 18-25 años</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
+                        <h4 class="text-xs font-black text-slate-900 uppercase mb-3"><i class="fa-solid fa-cart-shopping text-sky-500 mr-1"></i> Canal de Compra Frecuente</h4>
+                        <div class="h-56"><canvas id="chart3_2"></canvas></div>
+                    </div>
+                    <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
+                        <h4 class="text-xs font-black text-slate-900 uppercase mb-3"><i class="fa-solid fa-scale-balanced text-sky-500 mr-1"></i> Prioridad al Elegir una Marca</h4>
+                        <div class="h-56"><canvas id="chart3_3"></canvas></div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
+                        <h4 class="text-xs font-black text-slate-900 uppercase mb-3"><i class="fa-solid fa-wallet text-sky-500 mr-1"></i> Frecuencia de Gasto Lúdico</h4>
+                        <div class="h-64"><canvas id="chart3_4"></canvas></div>
+                    </div>
+                    <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
+                        <h4 class="text-xs font-black text-slate-900 uppercase mb-3"><i class="fa-solid fa-piggy-bank text-sky-500 mr-1"></i> Cultura y Disciplina de Ahorro</h4>
+                        <div class="h-64"><canvas id="chart3_5"></canvas></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="panel-topic4" class="tab-panel space-y-6">
+                <div class="relative rounded-2xl overflow-hidden shadow-md h-40 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=80');">
+                    <div class="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-900/80 to-transparent flex flex-col justify-center px-8">
+                        <span class="text-sky-400 font-extrabold text-[10px] uppercase tracking-widest mb-1"><i class="fa-solid fa-layer-group"></i> Tópico de Investigación 04</span>
+                        <h3 class="text-xl md:text-2xl font-black text-white uppercase tracking-tight">Expectativas, Educación y Futuro</h3>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm flex flex-col justify-between min-h-[250px]">
+                        <h4 class="text-xs font-black text-slate-900 uppercase mb-2"><i class="fa-solid fa-graduation-cap text-sky-500 mr-1"></i> Visión Futura</h4>
+                        <div class="grid grid-cols-2 divide-x divide-slate-100 flex-grow items-center">
+                            <div class="flex justify-center items-center gap-4 pr-2">
+                                <div class="text-center">
+                                    <i class="fa-solid fa-venus text-5xl text-pink-500 drop-shadow-sm"></i>
+                                    <p class="text-[10px] font-bold text-slate-400 uppercase mt-1">Incertidumbre</p>
+                                    <span class="text-base font-black text-slate-900">32.0%</span>
+                                </div>
+                                <div class="text-center">
+                                    <i class="fa-solid fa-mars text-5xl text-blue-500 drop-shadow-sm"></i>
+                                    <p class="text-[10px] font-bold text-slate-400 uppercase mt-1">Incertidumbre</p>
+                                    <span class="text-base font-black text-slate-900">20.0%</span>
+                                </div>
+                            </div>
+                            <div class="text-center pl-2">
+                                <i class="fa-solid fa-award text-4xl text-sky-500 mb-1"></i>
+                                <p class="text-[10px] font-bold text-slate-400 uppercase">Título Univ.</p>
+                                <span class="text-sm font-black text-slate-800 block">Indispensable</span>
+                                <span class="text-[11px] font-bold text-sky-600 bg-sky-50 px-2 py-0.5 rounded-full inline-block mt-1">100% de la Muestra</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
+                        <h4 class="text-xs font-black text-slate-900 uppercase mb-3"><i class="fa-solid fa-certificate text-sky-500 mr-1"></i> Relevancia del Título Profesional</h4>
+                        <div class="h-56"><canvas id="chart4_2"></canvas></div>
+                    </div>
+                    <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
+                        <h4 class="text-xs font-black text-slate-900 uppercase mb-3"><i class="fa-solid fa-coins text-sky-500 mr-1"></i> Destino del Capital Excedente</h4>
+                        <div class="h-56"><canvas id="chart4_3"></canvas></div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
+                        <h4 class="text-xs font-black text-slate-900 uppercase mb-3"><i class="fa-solid fa-rocket text-sky-500 mr-1"></i> Metas Personales Clave</h4>
+                        <div class="h-64"><canvas id="chart4_4"></canvas></div>
+                    </div>
+                    <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
+                        <h4 class="text-xs font-black text-slate-900 uppercase mb-3"><i class="fa-solid fa-briefcase text-sky-500 mr-1"></i> Percepción de Oportunidades Laborales</h4>
+                        <div class="h-64"><canvas id="chart4_5"></canvas></div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </section>
+
+    <footer class="border-t border-slate-200 bg-white py-3 text-center text-xs text-slate-500 font-bold">
+        Proyecto Universitario Integrado — © 2026 UJCV. Todos los derechos reservados.
+    </footer>
+
+    <script>
+        Chart.register(ChartDataLabels);
+
+        let chartsInitialized = false;
+
+        function navigateToDashboard(targetTopic) {
+            const portada = document.getElementById('view-portada');
+            const dashboard = document.getElementById('view-dashboard');
+
+            portada.classList.add('hidden');
+            dashboard.classList.remove('hidden');
+            
+            if (!chartsInitialized) {
+                initializeAllCharts();
+                chartsInitialized = true;
+            }
+
+            switchTab(targetTopic);
+            window.scrollTo({ top: 0 });
+        }
+
+        function returnToPortada() {
+            const portada = document.getElementById('view-portada');
+            const dashboard = document.getElementById('view-dashboard');
+
+            dashboard.classList.add('hidden');
+            portada.classList.remove('hidden');
+            window.scrollTo({ top: 0 });
+        }
+
+        function switchTab(topicKey) {
+            document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
+            document.querySelectorAll('.nav-tab-btn').forEach(btn => {
+                btn.classList.remove('bg-sky-600', 'text-white', 'shadow-sm');
+                btn.classList.add('text-slate-500', 'hover:text-slate-900');
+            });
+
+            document.getElementById('panel-' + topicKey).classList.add('active');
+            const activeBtn = document.getElementById('btn-tab-' + topicKey);
+            activeBtn.classList.add('bg-sky-600', 'text-white', 'shadow-sm');
+            activeBtn.classList.remove('text-slate-500', 'hover:text-slate-900');
+            
+            window.scrollTo({ top: 0, behavior: 'instant' });
+        }
+
+        function initializeAllCharts() {
+            
+            const globalOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: { duration: 1100, easing: 'easeOutQuart' },
+                plugins: {
+                    legend: { labels: { color: '#0F172A', font: { size: 11, weight: '700' } } },
+                    datalabels: {
+                        color: '#0F172A',
+                        font: { weight: 'bold', size: 12 },
+                        formatter: (value, ctx) => {
+                            if(ctx.chart.config.type === 'line' || ctx.dataset.label === 'Casos' || ctx.dataset.label === 'Preferencia' || ctx.dataset.label === 'Opinión' || ctx.dataset.label === 'Usuarios' || ctx.dataset.label === 'Aficionados') {
+                                let total = ctx.dataset.data.reduce((a, b) => a + b, 0);
+                                return ((value / total) * 100).toFixed(1) + '%';
+                            }
+                            return value.toString().includes('%') ? value : value + '%';
+                        },
+                        anchor: 'center',
+                        align: 'center'
+                    }
+                }
+            };
+
+            const barOptions = JSON.parse(JSON.stringify(globalOptions));
+            barOptions.plugins.datalabels.anchor = 'end';
+            barOptions.plugins.datalabels.align = 'top';
+
+            const skyPalette = ['#0284c7', '#38bdf8', '#7dd3fc', '#bae6fd', '#e0f2fe'];
+
+            // === MONITOREO TÓPICO 1 (Gráficos restantes) ===
+            new Chart(document.getElementById('chart1_2'), { type: 'bar', data: { labels: ['18-25', '26-35', '36-45', '46+'], datasets: [{ label: 'Casos', data: [62, 74, 53, 30], backgroundColor: skyPalette[0] }] }, options: barOptions });
+            new Chart(document.getElementById('chart1_3'), { type: 'doughnut', data: { labels: ['Distrito Central', 'SPS', 'Otros'], datasets: [{ data: [51.1, 34.7, 14.2], backgroundColor: [skyPalette[0], skyPalette[1], skyPalette[2]] }] }, options: globalOptions });
+            new Chart(document.getElementById('chart1_4'), { type: 'bar', data: { labels: ['Secundaria', 'Pregrado', 'Graduado', 'Postgrado'], datasets: [{ label: 'Casos', data: [27, 99, 66, 27], backgroundColor: skyPalette[1] }] }, options: barOptions });
+            new Chart(document.getElementById('chart1_5'), { type: 'line', data: { labels: ['Menos L15k', 'L15k-L30k', 'L30k-L50k', 'Más L50k'], datasets: [{ label: 'Casos', data: [45, 92, 54, 28], borderColor: skyPalette[0], borderWidth: 3, tension: 0.1, fill: false }] }, options: globalOptions });
+
+            // === MONITOREO TÓPICO 2 (Gráficos restantes) ===
+            new Chart(document.getElementById('chart2_2'), { type: 'bar', data: { labels: ['<2h', '2h-4h', '4h-6h', '>6h'], datasets: [{ label: 'Casos', data: [18, 54, 61, 86], backgroundColor: skyPalette[1] }] }, options: barOptions });
+            new Chart(document.getElementById('chart2_3'), { type: 'doughnut', data: { labels: ['Mañana', 'Tarde', 'Noche', 'Mixto'], datasets: [{ data: [19.2, 14.2, 46.5, 20.1], backgroundColor: [skyPalette[0], skyPalette[1], skyPalette[2], skyPalette[3]] }] }, options: globalOptions });
+            new Chart(document.getElementById('chart2_4'), { type: 'bar', data: { labels: ['WhatsApp', 'Instagram', 'TikTok', 'Facebook', 'LinkedIn'], datasets: [{ label: 'Casos', data: [210, 154, 132, 98, 45], backgroundColor: skyPalette[0] }] }, options: barOptions });
+            new Chart(document.getElementById('chart2_5'), { type: 'pie', data: { labels: ['Video Corto', 'Imágenes', 'Texto', 'Streaming'], datasets: [{ data: [52.5, 24.7, 10.0, 12.8], backgroundColor: [skyPalette[0], skyPalette[1], skyPalette[2], skyPalette[3]] }] }, options: globalOptions });
+
+            // === MONITOREO TÓPICO 3 (Gráficos restantes) ===
+            new Chart(document.getElementById('chart3_2'), { type: 'pie', data: { labels: ['E-commerce', 'Tiendas Físicas', 'Canal Mixto'], datasets: [{ data: [54.8, 32.4, 12.8], backgroundColor: [skyPalette[0], skyPalette[1], skyPalette[2]] }] }, options: globalOptions });
+            new Chart(document.getElementById('chart3_3'), { type: 'doughnut', data: { labels: ['Calidad/Precio', 'Prestigio', 'Tendencias'], datasets: [{ data: [61.2, 27.4, 11.4], backgroundColor: [skyPalette[0], skyPalette[1], skyPalette[2]] }] }, options: globalOptions });
+            new Chart(document.getElementById('chart3_4'), { type: 'bar', data: { labels: ['Semanal', 'Quincenal', 'Mensual', 'Esporádico'], datasets: [{ label: 'Usuarios', data: [52, 68, 71, 28], backgroundColor: skyPalette[1] }] }, options: barOptions });
+            new Chart(document.getElementById('chart3_5'), { type: 'pie', data: { labels: ['Ahorro Fijo', 'Ocasional', 'No Ahorra'], datasets: [{ data: [66.2, 24.7, 9.1], backgroundColor: [skyPalette[0], skyPalette[2], skyPalette[3]] }] }, options: globalOptions });
+
+            // === MONITOREO TÓPICO 4 (Gráficos restantes) ===
+            new Chart(document.getElementById('chart4_2'), { type: 'pie', data: { labels: ['Indispensable', 'Poco Relevante'], datasets: [{ data: [100.0, 0.0], backgroundColor: [skyPalette[0], skyPalette[3]] }] }, options: globalOptions });
+            new Chart(document.getElementById('chart4_3'), { type: 'bar', data: { labels: ['Educación', 'Emprender', 'Bienes Raíces', 'Otros'], datasets: [{ label: 'Preferencia', data: [85, 64, 45, 25], backgroundColor: skyPalette[1] }] }, options: barOptions });
+            new Chart(document.getElementById('chart4_4'), { type: 'line', data: { labels: ['Autonomía', 'Estabilidad', 'Patrimonio', 'Estudios'], datasets: [{ label: 'Casos', data: [98, 76, 34, 11], borderColor: skyPalette[0], borderWidth: 3, tension: 0.1, fill: false }] }, options: globalOptions });
+            new Chart(document.getElementById('chart4_5'), { type: 'bar', data: { labels: ['Muy Escasas', 'Competitivas', 'Favorables'], datasets: [{ label: 'Opinión', data: [64, 143, 12], backgroundColor: skyPalette[0] }] }, options: barOptions });
+        }
+    </script>
+</body>
+</html>
